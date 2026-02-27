@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Buscador de Mesas</title>
+
+  <style>
+    :root{
+      --brand-blue: #1e4d7b;
+      --brand-blue-dark: #17487c;
+      --brand-yellow: #f2b300;
+      --brand-yellow-dark: #d79200;
+      --card-bg: rgba(255, 255, 255, 0.86);
+      --card-blur: 6px;
+      --shadow: 0px 10px 34px rgba(0,0,0,0.24);
+      --radius: 18px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --app-height: 100svh; /* JS la reemplaza en iOS para evitar “vh” malo */
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: url("fondo.jpg") no-repeat center center;
+      background-size: cover;
+
+      min-height: var(--app-height);
+      height: var(--app-height);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: calc(16px + var(--safe-top)) 16px calc(16px + var(--safe-bottom));
+      box-sizing: border-box;
+
+      overflow: hidden;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 420px;
+
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(var(--card-blur));
+      -webkit-backdrop-filter: blur(var(--card-blur));
+
+      padding: 18px;
+      box-sizing: border-box;
+
+      max-height: calc(var(--app-height) - 32px - var(--safe-top) - var(--safe-bottom));
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--brand-blue);
+      font-weight: 900;
+      text-align: center;
+      white-space: nowrap;
+      line-height: 1.05;
+
+      font-size: clamp(28px, 6.2vw, 38px);
+      letter-spacing: 0.2px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .novios {
+      text-align: center;
+      font-weight: 900;
+      color: var(--brand-blue);
+      white-space: nowrap;
+      font-size: clamp(16px, 3.6vw, 20px);
+      letter-spacing: 0.2px;
+      margin-top: -2px;
+      margin-bottom: 4px;
+    }
+
+    .instruccion {
+      text-align: center;
+      font-size: clamp(16px, 3.9vw, 20px);
+      font-weight: 800;
+      color: #333;
+      line-height: 1.22;
+      margin: 0;
+    }
+
+    .ejemplo {
+      text-align: center;
+      margin: 0;
+      font-size: clamp(14px, 3.4vw, 18px);
+      color: #444;
+      font-weight: 700;
+      opacity: 0.95;
+    }
+
+    .campo {
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 12px;
+      border: 2px solid #cfcfcf;
+      font-size: clamp(18px, 4.8vw, 24px);
+      text-align: center;
+      font-weight: 900;
+      box-sizing: border-box;
+      outline: none;
+      background: rgba(255,255,255,0.95);
+    }
+
+    .campo:focus {
+      border-color: var(--brand-blue);
+      box-shadow: 0px 0px 10px rgba(30, 77, 123, 0.30);
+    }
+
+    .boton {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      font-size: clamp(18px, 4.6vw, 22px);
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+
+    .btnApellido {
+      background: linear-gradient(180deg, #1e5fa5, var(--brand-blue-dark));
+      color: #fff;
+    }
+
+    .btnMesa {
+      background: linear-gradient(180deg, var(--brand-yellow), var(--brand-yellow-dark));
+      color: #222;
+    }
+
+    .boton:active {
+      transform: scale(0.99);
+    }
+
+    .resultados {
+      margin-top: 4px;
+      padding-right: 4px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+
+      flex: 1;
+      min-height: 120px;
+      border-radius: 14px;
+    }
+
+    .resultados::-webkit-scrollbar { width: 8px; }
+    .resultados::-webkit-scrollbar-thumb {
+      background: rgba(30, 77, 123, 0.35);
+      border-radius: 10px;
+    }
+
+    .mesaHeader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      padding: 10px 12px;
+      margin: 2px 0 10px 0;
+
+      border-radius: 14px;
+      border: 2px solid rgba(30, 77, 123, 0.22);
+      background: rgba(255,255,255,0.78);
+
+      color: var(--brand-blue);
+      font-weight: 900;
+      font-size: clamp(16px, 4.2vw, 20px);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .resultadoItem {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      background: rgba(30, 77, 123, 0.10);
+      border-left: 6px solid var(--brand-blue);
+      border-radius: 12px;
+
+      padding: 11px 12px;
+      margin-bottom: 10px;
+
+      color: #1b1b1b;
+      font-weight: 900;
+      font-size: clamp(15px, 3.9vw, 18px);
+    }
+
+    .nombreFlex {
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mesaBadge {
+      flex: 0 0 auto;
+      background: linear-gradient(180deg, var(--brand-yellow), var(--brand-yellow-dark));
+      color: #1a1a1a;
+      font-weight: 900;
+      padding: 7px 11px;
+      border-radius: 12px;
+      font-size: 14px;
+      white-space: nowrap;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.12);
+    }
+
+    .resultadoMesaRow {
+      background: rgba(30, 77, 123, 0.10);
+      border-left: 6px solid var(--brand-blue);
+      border-radius: 12px;
+
+      padding: 11px 12px;
+      margin-bottom: 10px;
+
+      color: #1b1b1b;
+      font-weight: 900;
+      font-size: clamp(15px, 3.9vw, 18px);
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .contador {
+      text-align: center;
+      font-weight: 900;
+      font-size: 16px;
+      color: var(--brand-blue);
+      margin-top: 2px;
+      min-height: 20px;
+    }
+
+    .mensajeError {
+      text-align: center;
+      font-weight: 900;
+      font-size: 16px;
+      color: #b00020;
+      min-height: 20px;
+    }
+
+    .baseInfo{
+      text-align: center;
+      font-weight: 900;
+      font-size: 14px;
+      color: rgba(0,0,0,0.55);
+      margin-top: -2px;
+      min-height: 18px;
+    }
+
+    @media (max-height: 700px) {
+      .contenedor { padding: 16px; gap: 8px; }
+      .resultados { min-height: 100px; }
+    }
+
+    @media (max-width: 360px) {
+      .contenedor { padding: 16px; }
+      .mesaBadge { font-size: 13px; padding: 6px 10px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="contenedor" role="application" aria-label="Buscador de Mesas">
+    <h1>🌿 Buscador de Mesas</h1>
+    <div class="novios">Florencia Pino &amp; Tomás Godoy 💙</div>
+
+    <p class="instruccion">Ingresa tu apellido o número de mesa y presiona el botón correspondiente</p>
+    <p class="ejemplo">Ejemplo: González o 12</p>
+
+    <input
+      class="campo"
+      type="text"
+      id="busqueda"
+      placeholder="Escribe aquí…"
+      autocomplete="off"
+      autocapitalize="none"
+      autocorrect="off"
+      spellcheck="false"
+      inputmode="search"
+    />
+
+    <button class="boton btnApellido" id="btnApellido" type="button">🔍 Buscar por Apellido</button>
+    <button class="boton btnMesa" id="btnMesa" type="button">🪑 Buscar por Mesa</button>
+
+    <div id="resultados" class="resultados" aria-live="polite"></div>
+    <div id="contador" class="contador"></div>
+    <div id="mensajeError" class="mensajeError"></div>
+    <div id="baseInfo" class="baseInfo"></div>
+  </div>
+
+  <script>
+    "use strict";
+
+    let invitados = [];
+
+    // --- iOS Safari: fijar altura real para evitar “vh” incorrecto
+    function setAppHeight() {
+      document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
+    }
+
+    // Quita tildes, pasa a minúsculas, normaliza espacios (Ñ -> n)
+    function normalizarTexto(texto) {
+      return String(texto || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    // Normaliza mesa: SOLO números (para buscar mesa 1..40)
+    // Si viene "N" u otra cosa, queda vacío y se descarta para búsqueda por mesa.
+    function normalizarMesa(valor) {
+      const t = String(valor || "").replace(/["']/g, "").trim();
+      const num = parseInt(t, 10);
+      return Number.isFinite(num) ? String(num) : "";
+    }
+
+    // Parser CSV simple (soporta comillas y delimitador , o ;)
+    function parseCSV(texto) {
+      const raw = String(texto || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+      const lines = raw.split("\n").filter(l => l.trim().length > 0);
+      if (lines.length === 0) return [];
+
+      const headerLine = lines[0];
+      const commaCount = (headerLine.match(/,/g) || []).length;
+      const semiCount  = (headerLine.match(/;/g) || []).length;
+      const delim = semiCount > commaCount ? ";" : ",";
+
+      const rows = [];
+      for (const line of lines) rows.push(parseCSVLine(line, delim));
+      return rows;
+    }
+
+    function parseCSVLine(line, delim) {
+      const out = [];
+      let cur = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+
+        if (ch === '"') {
+          if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+          else { inQuotes = !inQuotes; }
+          continue;
+        }
+
+        if (!inQuotes && ch === delim) {
+          out.push(cur);
+          cur = "";
+          continue;
+        }
+
+        cur += ch;
+      }
+
+      out.push(cur);
+      return out.map(v => v.trim());
+    }
+
+    function el(id) { return document.getElementById(id); }
+
+    function limpiarPantalla() {
+      el("resultados").innerHTML = "";
+      el("contador").innerText = "";
+      el("mensajeError").innerText = "";
+      // baseInfo NO se limpia: queremos que siempre se vea
+    }
+
+    function setError(msg) {
+      el("mensajeError").innerText = msg;
+    }
+
+    function setCount(n, label = "Invitados encontrados") {
+      el("contador").innerText = `${label}: ${n}`;
+    }
+
+    function setBaseInfo(n) {
+      el("baseInfo").innerText = `Base cargada: ${n} registros`;
+    }
+
+    async function cargarCSV() {
+      try {
+        const response = await fetch("invitados.csv", { cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.text();
+
+        const rows = parseCSV(data);
+        if (rows.length < 2) throw new Error("CSV vacío o sin datos.");
+
+        const headers = rows[0].map(h => normalizarTexto(h));
+        const idxNombre = headers.indexOf("nombre");
+        const idxMesa   = headers.indexOf("mesa");
+        // grupo y rol pueden existir, pero no son obligatorios para que funcione
+        const idxGrupo = headers.indexOf("grupo");
+        const idxRol   = headers.indexOf("rol");
+
+        if (idxNombre === -1 || idxMesa === -1) {
+          throw new Error("Encabezados requeridos no encontrados (nombre, mesa).");
+        }
+
+        const parsed = rows.slice(1).map(r => {
+          const nombre = (r[idxNombre] || "").trim();
+          const mesa   = (r[idxMesa]   || "").trim();
+
+          const grupo  = idxGrupo !== -1 ? (r[idxGrupo] || "").trim() : "";
+          const rol    = idxRol   !== -1 ? (r[idxRol]   || "").trim() : "";
+
+          return {
+            nombre,
+            mesa,
+            grupo,
+            rol,
+            nombreKey: normalizarTexto(nombre),
+            mesaKey: normalizarMesa(mesa)
+          };
+        }).filter(x => x.nombre); // mantenemos todos con nombre (aunque mesa sea "N")
+
+        invitados = parsed;
+
+        // Base cargada = total de filas con nombre
+        setBaseInfo(invitados.length);
+
+      } catch (err) {
+        console.error("Error cargando/parsing CSV:", err);
+        setError("⚠️ Error al cargar invitados. Revisa invitados.csv (encabezados: nombre, mesa).");
+        setBaseInfo(0);
+      }
+    }
+
+    // --- BÚSQUEDA POR APELLIDO (soporta múltiples palabras)
+    function buscarPorApellido() {
+      limpiarPantalla();
+
+      const input = el("busqueda").value;
+      const q = normalizarTexto(input);
+
+      if (!q) {
+        setError("⚠️ Escribe un apellido antes de buscar.");
+        return;
+      }
+
+      // Permite varias palabras: "garcia huidobro", "de la fuente", etc.
+      const tokens = q.split(" ").filter(Boolean);
+
+      const resultados = invitados.filter(inv => {
+        const palabras = inv.nombreKey.split(" ");
+        // Todas las palabras buscadas deben existir como palabra completa en el nombre
+        return tokens.every(t => palabras.includes(t));
+      });
+
+      if (resultados.length === 0) {
+        setError("❌ No se encontraron resultados. Prueba con otro apellido.");
+        return;
+      }
+
+      renderResultadosApellido(resultados);
+      setCount(resultados.length);
+    }
+
+    // --- BÚSQUEDA POR MESA (solo números)
+    function buscarPorMesa() {
+      limpiarPantalla();
+
+      const input = el("busqueda").value;
+      const mesaKey = normalizarMesa(input);
+
+      if (!mesaKey) {
+        setError("⚠️ Ingresa un número de mesa válido.");
+        return;
+      }
+
+      // Solo invitados con mesa numérica
+      const resultados = invitados.filter(inv => inv.mesaKey === mesaKey);
+
+      if (resultados.length === 0) {
+        setError(`❌ No se encontró la mesa ${mesaKey}.`);
+        return;
+      }
+
+      renderResultadosMesa(resultados, mesaKey);
+      setCount(resultados.length);
+    }
+
+    function renderResultadosApellido(resultados) {
+      const cont = el("resultados");
+
+      resultados.sort((a, b) => {
+        const ma = parseInt(a.mesaKey || "9999", 10);
+        const mb = parseInt(b.mesaKey || "9999", 10);
+        if (ma !== mb) return ma - mb;
+        return a.nombre.localeCompare(b.nombre, "es");
+      });
+
+      cont.innerHTML = resultados.map(inv => `
+        <div class="resultadoItem">
+          <div class="nombreFlex" title="${escapeHTML(inv.nombre)}">${escapeHTML(inv.nombre)}</div>
+          <div class="mesaBadge">${inv.mesaKey ? `Mesa ${escapeHTML(inv.mesaKey)}` : `Mesa N`}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderResultadosMesa(resultados, mesaKey) {
+      const cont = el("resultados");
+
+      const header = `
+        <div class="mesaHeader">🪑 MESA ${escapeHTML(mesaKey)}</div>
+      `;
+
+      resultados.sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
+
+      const rows = resultados.map(inv => `
+        <div class="resultadoMesaRow" title="${escapeHTML(inv.nombre)}">${escapeHTML(inv.nombre)}</div>
+      `).join("");
+
+      cont.innerHTML = header + rows;
+    }
+
+    function escapeHTML(str) {
+      return String(str || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function init() {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      window.scrollTo(0, 0);
+
+      setAppHeight();
+      cargarCSV();
+
+      el("btnApellido").addEventListener("click", buscarPorApellido);
+      el("btnMesa").addEventListener("click", buscarPorMesa);
+
+      el("busqueda").addEventListener("keydown", (e) => {
+        if (e.key !== "Enter") return;
+        const v = el("busqueda").value.trim();
+        if (/^\d+$/.test(v)) buscarPorMesa();
+        else buscarPorApellido();
+      });
+
+      window.addEventListener("resize", setAppHeight, { passive: true });
+      window.addEventListener("orientationchange", () => {
+        setTimeout(setAppHeight, 50);
+      }, { passive: true });
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
