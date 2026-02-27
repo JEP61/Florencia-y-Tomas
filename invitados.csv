@@ -1,0 +1,411 @@
+﻿grupo;nombre;mesa;rol
+8;Alessandrini Juan Manuel;1;principal
+101;Freitte Catalina;1;acompanante
+101;Herrera Eduardo;1;principal
+176;Irarrazabal Josefina;1;acompanante
+8;Lorenzini Sofía;1;acompanante
+176;Poblete Benjamin;1;principal
+207;Troncoso Tomás;1;principal
+207;Ward María Gracia;1;acompanante
+226;Zamorano Felipe;1;principal
+1;Abusleme Victoria;2;principal
+51;Acompañante de De la Fuente Sofía;2;acompanante
+205;Alfaro José Miguel;2;acompanante
+51;De la Fuente Sofía;2;principal
+97;Fernandez Joaquín;2;acompanante
+97;Gonzalez Dominga;2;principal
+205;Steinmetz Francisca;2;principal
+1;Undurraga Juan;2;acompanante
+227;Urzúa Francisco;2;acompanante
+227;Zavala Trinidad;2;principal
+2;Achondo Catalina;3;principal
+105;Caprile Bruno;3;acompanante
+154;Guivarello Jose;3;acompanante
+105;Hewstone Alicia;3;principal
+123;Larrain Jacinta;3;principal
+154;Ossa Trinidad;3;principal
+2;Pizarro Felipe;3;acompanante
+185;Prieto Benjamín;3;acompanante
+185;Rivera Elisa;3;principal
+6;Alemparte Alvaro;4;principal
+6;Cavagnaro Paula;4;acompanante
+37;Charles Tomás;4;principal
+116;Gerhard Eileen;4;acompanante
+116;Jorquera Esteban;4;principal
+216;Madrid Macarena;4;acompanante
+161;Perez Agustín;4;principal
+37;Riveros Natalia;4;acompanante
+161;Siles Alejandra;4;acompanante
+216;Vargas Matías;4;principal
+9;Alvarez Francisco;5;principal
+210;Figueroa María José;5;acompanante
+83;Gil Cristobal;5;principal
+103;Herrera Pablo;5;principal
+83;Juillerat María de los Ángeles;5;acompanante
+131;Manzano María Ignacia;5;acompanante
+131;Martínez Cristian;5;principal
+210;Valdes Matías;5;principal
+211;Valdes Pilar;5;principal
+22;Berner Carlos;6;principal
+23;Berner Felipe;6;principal
+24;Berner Nicolás;6;principal
+129;Concha Ángela;6;acompanante
+23;Cortés Natalia;6;acompanante
+58;Errazuriz Pedro;6;principal
+106;Hormann Sebastián;6;principal
+106;Mandujano Trinidad;6;acompanante
+129;Marcone Fernando;6;principal
+58;Tejos Rosario;6;acompanante
+5;Alday Francisco;7;principal
+20;Alliende Magdalena;7;acompanante
+20;Bascuñan Felipe;7;principal
+145;Lyon Carmen Luz;7;acompanante
+140;Marquez Verónica;7;acompanante
+140;Monge Vicente;7;principal
+145;Muñoz Eduardo;7;principal
+5;Vargas Soledad;7;acompanante
+14;Arteaga Raul;8;principal
+14;Bravo Gabriela;8;acompanante
+49;Cruz Santiago;8;principal
+122;Donoso Rosario;8;acompanante
+153;Hormazábal Katherine;8;acompanante
+109;Hurtado Matías;8;principal
+122;Larach Francisco;8;principal
+109;Mas Amelia;8;acompanante
+153;Opaso Vicente;8;principal
+49;Wagner Irene;8;acompanante
+45;Acompañante de Correa Cristobal;9;acompanante
+19;Bas Juan Pablo;9;principal
+218;Brahm Carolina;9;acompanante
+45;Correa Cristobal;9;principal
+19;Gili Sofía;9;acompanante
+128;Gutierrez Florencia;9;acompanante
+107;Hornauer Pablo;9;principal
+128;Lores Guillermo;9;principal
+135;Mena Javier;9;principal
+135;Ossa María Ignacia;9;acompanante
+218;Vial Francisco;9;principal
+138;Acompañante de Milnes Paula;10;acompanante
+13;Ariztia Fernanda;10;principal
+15;Aspillaga Ignacia;10;principal
+15;Bernhardt Felipe;10;acompanante
+42;Bravo Juan;10;acompanante
+42;Cordero Julita;10;principal
+204;Correa Vicente;10;acompanante
+138;Milnes Paula;10;principal
+13;Ruiz-Tagle Pablo;10;acompanante
+204;Stanke Teresita;10;principal
+21;Acompañante de Bazan Emilia;11;acompanante
+203;Acompañante de Soto Trinidad;11;acompanante
+21;Bazan Emilia;11;principal
+67;Fernandez Ana;11;principal
+70;Fernandez Javiera;11;principal
+71;Fernandez Pilar;11;principal
+104;Hevia Ignacia;11;principal
+130;Marcone Sofía;11;principal
+139;Molina Angeles;11;principal
+130;Olave Joaquín;11;acompanante
+71;Palma Ismael;11;acompanante
+203;Soto Trinidad;11;principal
+104;Zamora Jose;11;acompanante
+189;Alonso Hugo;12;acompanante
+222;Collado Gonzalo;12;acompanante
+43;Córdova Gonzalo;12;principal
+43;Daga Paloma;12;acompanante
+73;Ferrer José Antonio;12;principal
+100;Hederra María José;12;principal
+100;Palma Cristian;12;acompanante
+73;Patrick Anne Marie;12;acompanante
+189;Roman Francisca;12;principal
+222;Viteri María Angélica;12;principal
+217;Alemparte Felipe;13;acompanante
+18;Barros Consuelo;13;principal
+57;Errazuriz Luisa;13;principal
+65;Eterovic Carolina;13;principal
+57;Fuenzalida Antonio;13;acompanante
+80;Garcia Marcos;13;acompanante
+80;García Soledad;13;principal
+65;Hurtado Adolfo;13;acompanante
+18;Salinas Eduardo;13;acompanante
+217;Velasco Laura;13;principal
+4;Albornoz Soledad;14;principal
+17;Barría Jorge;14;principal
+149;Escalante Fernando;14;acompanante
+99;Gutierrez Francisco;14;principal
+149;Navia Javiera;14;principal
+155;Ovalle Virginia;14;principal
+162;Perez Nicolas;14;principal
+4;Silva Matías;14;acompanante
+17;Zerega Verónica;14;acompanante
+26;Bordali Martin;15;principal
+28;Bruno Silvana;15;principal
+26;Campodonico Giannina;15;acompanante
+46;Correa Francisco;15;principal
+46;Diaz Catalina;15;acompanante
+78;Garcés Benjamin;15;principal
+28;Llano Rodrigo;15;acompanante
+184;Rivas Florencia;15;principal
+184;Salazar Iñaki;15;acompanante
+78;Valdes Luisa;15;acompanante
+12;Arancibia Bernardita;16;principal
+31;Campino Maria Ignacia;16;principal
+40;Contesse Cristóbal;16;principal
+121;Krsanac Francisco;16;principal
+12;Maira Gonzalo;16;acompanante
+137;Milnes María Jesús;16;principal
+187;Rodríguez Nicolás;16;principal
+137;Silva Matias;16;acompanante
+40;Slater Sharon;16;acompanante
+31;Valenzuela Matias;16;acompanante
+38;Bustos Florencia;17;acompanante
+38;Chauveau Matilda;17;principal
+48;Correa Sonia;17;principal
+54;Diaz del Rio Ana Maria;17;principal
+55;Errazuriz Barbara;17;principal
+54;Garay Gustavo;17;acompanante
+230;Miranda Trinidad;17;acompanante
+175;Pinzon Rafaela;17;principal
+175;Quiroga Jose;17;acompanante
+230;Zuñiga Julian;17;principal
+47;Correa María Teresa;18;principal
+118;Flores José Miguel;18;acompanante
+47;Ibarra Rafael;18;acompanante
+118;Krauss Florencia;18;principal
+197;Krauss José Gabriel;18;acompanante
+119;Krauss Josefina;18;principal
+120;Krauss Pilar;18;principal
+120;Riquelme Nicolas;18;acompanante
+197;Segovia Pilar;18;principal
+190;Achondo Ignacio;19;acompanante
+11;Andrighetti Paula;19;principal
+133;Barriga Ignacio;19;acompanante
+224;Donoso José;19;acompanante
+125;Echeñique Raúl;19;acompanante
+225;Fernandez Julio;19;acompanante
+11;Garib German;19;acompanante
+125;León María Luisa;19;principal
+133;Meersohn Susana;19;principal
+190;Salas Rosario;19;principal
+224;Wenzel Macarena;19;principal
+225;Wenzel María Paz;19;principal
+7;Alemparte Alvaro;20;principal
+10;Álvarez Francisco;20;principal
+30;Bugge Alejandra;20;principal
+75;Correa José Antonio;20;acompanante
+53;Delard Ximena;20;principal
+75;Fracchia Beatriz;20;principal
+136;Metz Patricia;20;principal
+7;Muñoz María José;20;acompanante
+206;Tagle Pilar;20;principal
+10;Urzua Isabel;20;acompanante
+206;Valdes Matías;20;acompanante
+199;Barrios Lucia;21;acompanante
+68;Fernández Anita;21;principal
+112;Fernandez Roberto;21;acompanante
+111;Isasi Adriana;21;principal
+112;Isasi Ana María;21;principal
+68;Ramírez Sebastián;21;acompanante
+194;Santibañez Trinidad;21;principal
+199;Segovia Sergio;21;principal
+16;Barraza Mauricio;22;principal
+228;Biseo Christian;22;acompanante
+41;Cordero Gonzalo;22;principal
+191;Ekmekdjian Vicky;22;acompanante
+96;Gomez Raul;22;principal
+96;Labbe Pía;22;acompanante
+41;Rodríguez Jimena;22;acompanante
+191;Saleh Luis Alberto;22;principal
+16;Sepulveda Carolina;22;acompanante
+228;Zuñiga Alejandra;22;principal
+196;Guzmán Magdalena;23;acompanante
+200;Isasi Consuelo;23;acompanante
+181;Pérez Marco;23;acompanante
+180;Rentería Paulina;23;principal
+181;Retamal Ruth;23;principal
+196;Segovia Benjamin;23;principal
+180;Segovia María José;23;acompanante
+198;Segovia Sebastián;23;principal
+200;Segovia Sergio;23;principal
+231;Zurita Alicia;23;principal
+36;Chaluja Patricia;24;principal
+52;Délano Carolina;24;principal
+61;Eslava Isabel;24;principal
+76;Gamboa María José;24;principal
+110;Igualt Alejandra;24;principal
+114;Izquierdo María;24;principal
+126;Llona Alejandra;24;principal
+157;Parada Alejanda;24;principal
+163;Pesce Laurita;24;principal
+219;Vías Carola;24;principal
+50;Barros Catalina;25;acompanante
+50;Cury José Luis;25;principal
+66;Farren Mario;25;principal
+66;Garcia Huidobro Bernardita;25;acompanante
+178;Grove Cecilia;25;acompanante
+151;Olivares Manuel;25;principal
+178;Quintana José Miguel;25;principal
+192;Ready Vanessa;25;acompanante
+192;Salvador José Miguel;25;principal
+151;Silva Alejandra;25;acompanante
+72;Conejero Paulina;26;acompanante
+117;Fernández Alejandro;26;acompanante
+72;Fernández René;26;principal
+115;Guzmán Fernanda;26;acompanante
+113;Ivanyi Anna;26;principal
+115;Jiménez Gonzalo;26;principal
+117;Justiniano Lili;26;principal
+113;Lezaeta Felipe;26;acompanante
+182;Ríos Verónica;26;principal
+182;Robinson Roland;26;acompanante
+44;Bahamon Patricia;27;acompanante
+159;Barker Bruce;27;acompanante
+202;Ceresa Francisca;27;acompanante
+44;Cornejo David;27;principal
+81;Gasic Carola;27;principal
+146;Larrain Juan;27;acompanante
+146;Muñoz Marcela;27;principal
+81;Ossa Alejandro;27;acompanante
+159;Parker Alejandra;27;principal
+202;Solar Rolando;27;principal
+27;Aspillaga Felipe;28;acompanante
+27;Bravo María José;28;principal
+64;Espinoza Claudia;28;principal
+64;Leonardini Angel;28;acompanante
+132;Matte Amelia;28;acompanante
+132;Matte Fernando;28;principal
+148;Navarro Solange;28;principal
+193;Nuñez Valentina;28;acompanante
+193;Santa María Rodrigo;28;principal
+148;Tagle Javier;28;acompanante
+141;Broce Aneli;29;acompanante
+150;Burcsardt Konrad;29;acompanante
+79;Caldarella Renzo;29;acompanante
+152;Espinoza Yorka;29;acompanante
+79;García Paula;29;principal
+141;Mora Mario;29;principal
+150;Olavarria Carolina;29;principal
+152;Olivera Thomas;29;principal
+183;Ravanal Claudia;29;acompanante
+183;Risco Juan Pablo;29;principal
+172;Ahumada Cecilia;30;acompanante
+33;Camus Fernado;30;principal
+34;Camus Marcela;30;principal
+164;Pino Alvaro;30;principal
+171;Pino Ricardo;30;principal
+172;Pino Rodrigo;30;principal
+174;Pino Visinteiner Ernesto;30;principal
+171;Rehhof Carola;30;acompanante
+164;Slaughter Ariel;30;acompanante
+220;Visinteiner Ida Luisa;30;principal
+221;Visinteiner Marcela;30;principal
+212;Arroyo Mariela;31;acompanante
+223;Gallo Soledad;31;acompanante
+215;González Sofía;31;acompanante
+186;Menadier Brigitte;31;acompanante
+156;Ovalle Ximena;31;principal
+186;Rodriguez Jorge;31;principal
+201;Rojas Cecilia;31;acompanante
+201;Segura Carlos;31;principal
+208;Ugazzi Michele;31;principal
+212;Valdivia Sergio;31;principal
+215;Varela Patricio;31;principal
+156;Villarroel Luis;31;acompanante
+223;Weibel Alvaro;31;principal
+124;Acompañante de Lenz Darling;32;acompanante
+188;Durán Ignacio;32;acompanante
+92;Godoy Paulina;32;principal
+93;Godoy Rossana;32;principal
+124;Lenz Darling;32;principal
+134;Menendez Pablo;32;principal
+92;Paredes Patricio;32;acompanante
+188;Rojas Francisca;32;principal
+134;Salas Francisca;32;acompanante
+93;Ternicien Sergio;32;acompanante
+35;Cerda Jimmi;33;acompanante
+35;Cerda Marina;33;principal
+85;Galvez Víctor;33;acompanante
+84;Godoy Filomena;33;principal
+85;Godoy Gina;33;principal
+89;Godoy Mario;33;principal
+91;Godoy Paula;33;principal
+84;Moya Sofía;33;acompanante
+91;Ruiz Andrés;33;acompanante
+89;Vidal Carolina;33;acompanante
+158;Acompañante de Paredes Sebastián;34;acompanante
+209;Bascur Nikole;34;acompanante
+95;Godoy Ferreira Javiera;34;principal
+98;González Rodrigo;34;acompanante
+98;Guerrero Celina;34;principal
+158;Paredes Sebastián;34;principal
+209;Valderrama Michael;34;principal
+60;Alegría María Luz;36;acompanante
+62;Contin Pamela;36;acompanante
+60;Escobar Maximiliano;36;principal
+62;Espindola Leonardo;36;principal
+108;Humeres Roberto;36;principal
+160;Lobos Alejandra;36;acompanante
+147;Marinkovic Luisa;36;acompanante
+108;Montaño Bárbara;36;acompanante
+147;Muñoz Pablo;36;principal
+160;Pedraza Daniel;36;principal
+63;Acompañante de Espindola Manuel;37;acompanante
+29;Buckel Erwin;37;principal
+29;Cozzi María Fernanda;37;acompanante
+82;Cuevas Ada;37;acompanante
+59;Escala José Manuel;37;principal
+63;Espindola Manuel;37;principal
+77;Gana Renato;37;principal
+82;Germain Alfredo;37;principal
+77;Llona Soledad;37;acompanante
+179;Merino René;37;acompanante
+179;Raimann Ximena;37;principal
+25;Blanco Angel;38;principal
+143;Cristoffanini Andrés;38;acompanante
+25;Errazuriz Verónica;38;acompanante
+102;Herrera José Miguel;38;principal
+177;Jaime Cristian;38;acompanante
+143;Morovic Carmen Gloria;38;principal
+177;Puentes María Consuelo;38;principal
+102;Reyes Danielle;38;acompanante
+195;Scherll Humberto;38;principal
+195;Ysetta Sonia;38;acompanante
+32;Camus Andres;39;principal
+39;Chauveau Renata;39;principal
+170;Cordova Daniel;39;acompanante
+229;Devlahich José Luís;39;acompanante
+69;Fernandez Florencia;39;principal
+144;Muñoz Andrés;39;principal
+166;Pino Eduardo;39;principal
+170;Pino Pascale;39;principal
+213;Valenzuela Josefa;39;principal
+144;Zamorano Macarena;39;acompanante
+229;Zuñiga Catalina;39;principal
+3;Alarcón Adrian;40;principal
+214;Andrews Scarlett;40;acompanante
+127;Arroyo María Eugenia;40;acompanante
+142;Cubillos Juan Sebastián;40;acompanante
+74;Figueroa Fabian;40;principal
+127;López Leonardo;40;principal
+142;Morales Carolina;40;principal
+74;Olea Francisca;40;acompanante
+214;Valenzuela Juan José;40;principal
+3;Villalobos Carolina;40;acompanante
+169;Arteaga Diego;N;acompanante
+86;Berner María Jesús;N;acompanante
+56;Errazuriz Francisca;N;principal
+87;Espinosa Diego;N;acompanante
+165;Ferrer Macarena;N;acompanante
+86;Godoy Ignacio;N;principal
+87;Godoy Javiera;N;principal
+88;Godoy Jorge;N;principal
+90;Godoy Martín;N;principal
+94;Godoy Tomás;N;principal
+167;Muñoz Diego;N;acompanante
+165;Pino Diego;N;principal
+94;Pino Florencia;N;acompanante
+167;Pino Josefina;N;principal
+168;Pino Juan Enrique;N;principal
+169;Pino Martina;N;principal
+173;Pino Sebastian;N;principal
+88;Segovia Montserrat;N;acompanante
+173;Yaconi Amanda;N;acompanante
