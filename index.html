@@ -116,7 +116,6 @@
       outline: none;
       background: rgba(255,255,255,0.95);
     }
-
     .campo:focus {
       border-color: var(--brand-blue);
       box-shadow: 0px 0px 10px rgba(30, 77, 123, 0.30);
@@ -132,7 +131,6 @@
       cursor: pointer;
       transition: transform 0.18s ease, filter 0.18s ease;
     }
-
     .boton:active { transform: scale(0.99); }
 
     .btnApellido {
@@ -156,6 +154,7 @@
       padding-right: 4px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+
       flex: 1;
       min-height: 120px;
       border-radius: 14px;
@@ -267,32 +266,26 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: calc(12px + var(--safe-top)) 12px calc(12px + var(--safe-bottom));
+      padding: calc(16px + var(--safe-top)) 16px calc(16px + var(--safe-bottom));
       box-sizing: border-box;
       z-index: 9999;
     }
 
     .modal {
       width: min(520px, 100%);
-      max-height: calc(var(--app-height) - 24px - var(--safe-top) - var(--safe-bottom));
-      background: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.95);
       border-radius: 18px;
       box-shadow: 0px 16px 50px rgba(0,0,0,0.35);
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
     }
 
     .modalHeader {
-      position: sticky;
-      top: 0;
-      z-index: 5;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
       padding: 12px 14px;
-      background: rgba(30,77,123,0.10);
+      background: rgba(30,77,123,0.08);
       border-bottom: 1px solid rgba(0,0,0,0.08);
     }
 
@@ -300,32 +293,24 @@
       font-weight: 900;
       color: var(--brand-blue);
       font-size: 16px;
-      line-height: 1.1;
     }
 
     .btnCerrar {
       border: none;
-      background: rgba(30,77,123,0.14);
+      background: rgba(30,77,123,0.12);
       color: var(--brand-blue);
       font-weight: 900;
       padding: 10px 12px;
       border-radius: 12px;
       cursor: pointer;
-      white-space: nowrap;
     }
-
-    .modalBody {
-      flex: 1;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      background: #f3f3f3;
-    }
+    .btnCerrar:active { transform: scale(0.99); }
 
     .mapWrap {
       position: relative;
       width: 100%;
       aspect-ratio: 9 / 16;
-      background: #f3f3f3;
+      background: #eee;
     }
 
     .mapImg {
@@ -337,18 +322,18 @@
       display: block;
     }
 
-    /* DESTACADOR CIRCULAR SOLIDO (en px, calculado en JS) */
-    .ring{
-      position:absolute;
-      border-radius:999px;
-      background:rgba(30,77,123,0.25);
-      border:8px solid rgba(30,77,123,0.95);
+    /* Aro fino circular, centrado con coords de imagen */
+    .ring {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(30,77,123,0.18);
+      border: 9px solid rgba(30,77,123,0.95);
       box-shadow:
-        0 0 0 6px rgba(30,77,123,0.20),
-        0 8px 22px rgba(0,0,0,0.18);
-      transform:translate(-50%,-50%);
-      display:none;
-      pointer-events:none;
+        0 0 0 6px rgba(30,77,123,0.18),
+        0 10px 28px rgba(0,0,0,0.18);
+      transform: translate(-50%, -50%);
+      display: none;
+      pointer-events: none;
     }
 
     @media (max-height: 700px) {
@@ -368,7 +353,7 @@
     <div class="novios">Florencia Pino &amp; Tomás Godoy 💙</div>
 
     <p class="instruccion">Ingresa tu apellido o número de mesa y presiona el botón correspondiente</p>
-    <p class="ejemplo">Ejemplo: García Huidobro o 12</p>
+    <p class="ejemplo">Ejemplo: González o 12</p>
 
     <input
       class="campo"
@@ -400,11 +385,9 @@
         <button class="btnCerrar" id="btnCerrar" type="button">Cerrar ✕</button>
       </div>
 
-      <div class="modalBody">
-        <div class="mapWrap" id="mapWrap">
-          <img class="mapImg" id="mapImg" src="mapa.png" alt="Mapa de mesas" />
-          <div class="ring" id="ring"></div>
-        </div>
+      <div class="mapWrap" id="mapWrap">
+        <img class="mapImg" id="mapImg" src="mapa.png" alt="Mapa de mesas" />
+        <div class="ring" id="ring"></div>
       </div>
     </div>
   </div>
@@ -412,8 +395,7 @@
   <script>
     "use strict";
 
-    const MAP_IMAGE_FILENAME = "mapa.png";
-
+    // --- ESTADO
     let invitados = [];
     let mesaSeleccionada = null;
 
@@ -515,7 +497,6 @@
         const headers = rows[0].map(h => normalizarTexto(h));
         const idxNombre = headers.indexOf("nombre");
         const idxMesa   = headers.indexOf("mesa");
-
         const idxGrupo  = headers.indexOf("grupo");
         const idxRol    = headers.indexOf("rol");
 
@@ -526,6 +507,7 @@
         invitados = rows.slice(1).map(r => {
           const nombre = (r[idxNombre] || "").trim();
           const mesa   = (r[idxMesa]   || "").trim();
+
           const grupo  = idxGrupo !== -1 ? (r[idxGrupo] || "").trim() : "";
           const rol    = idxRol   !== -1 ? (r[idxRol]   || "").trim() : "";
 
@@ -540,13 +522,13 @@
         }).filter(x => x.nombre);
 
       } catch (err) {
-        console.error(err);
+        console.error("Error cargando/parsing CSV:", err);
         setError("⚠️ Error al cargar invitados. Revisa invitados.csv (encabezados: nombre, mesa).");
         invitados = [];
       }
     }
 
-    // ===== MAPA (grilla 6x8 en 50% central, 25% arriba y 25% abajo) =====
+    // --- MAPA: mapeo mesa -> celda
     const mesaToCell = {
       "1":  ["A",3], "2":  ["A",4], "3":  ["A",5], "4":  ["A",6], "5":  ["A",7], "6":  ["A",8],
       "7":  ["B",8], "8":  ["B",7], "9":  ["B",6], "10": ["B",5], "11": ["B",4], "12": ["B",3], "13": ["B",2],
@@ -555,54 +537,96 @@
       "28": ["E",2], "29": ["E",3], "30": ["E",4], "31": ["E",5], "32": ["E",6], "33": ["E",7], "34": ["E",8],
       "35": ["F",8], "36": ["F",7], "37": ["F",6], "38": ["F",5], "39": ["F",4], "40": ["F",3]
     };
+
     const rowIndex = { "A":0, "B":1, "C":2, "D":3, "E":4, "F":5 };
 
     function mostrarBotonMapa(mesaNum) {
       mesaSeleccionada = String(mesaNum);
       el("btnMapa").style.display = "block";
     }
-    function ocultarBotonMapa() { el("btnMapa").style.display = "none"; }
+
+    function ocultarBotonMapa() {
+      el("btnMapa").style.display = "none";
+    }
+
+    // Calcula el rectángulo real de la imagen dibujada dentro del wrap (por object-fit: contain)
+    function getContainedImageRect(img, wrap) {
+      const wrapW = wrap.clientWidth;
+      const wrapH = wrap.clientHeight;
+
+      const natW = img.naturalWidth || 0;
+      const natH = img.naturalHeight || 0;
+
+      if (!natW || !natH || !wrapW || !wrapH) {
+        return { x: 0, y: 0, w: wrapW, h: wrapH };
+      }
+
+      const scale = Math.min(wrapW / natW, wrapH / natH);
+      const dispW = natW * scale;
+      const dispH = natH * scale;
+
+      const offsetX = (wrapW - dispW) / 2;
+      const offsetY = (wrapH - dispH) / 2;
+
+      return { x: offsetX, y: offsetY, w: dispW, h: dispH };
+    }
 
     function abrirMapa() {
       if (!mesaSeleccionada) return;
 
-      el("mapImg").src = MAP_IMAGE_FILENAME;
       el("modalOverlay").style.display = "flex";
       el("modalTitle").innerText = `Ubicación de tu mesa: ${mesaSeleccionada}`;
 
       const ring = el("ring");
-      const cell = mesaToCell[mesaSeleccionada];
-      if (!cell) { ring.style.display = "none"; return; }
-
       const wrap = el("mapWrap");
-      const wrapW = wrap.clientWidth;
-      const wrapH = wrap.clientHeight;
+      const img  = el("mapImg");
 
-      const r = rowIndex[cell[0]];
-      const c = cell[1] - 1; // 0..7
+      const cell = mesaToCell[mesaSeleccionada];
+      if (!cell) {
+        ring.style.display = "none";
+        return;
+      }
 
-      const colWpx = wrapW / 8;
-      const rowHpx = (wrapH * 0.50) / 6;
+      // Asegurar que naturalWidth/Height exista (por si iOS demora)
+      const place = () => {
+        const rect = getContainedImageRect(img, wrap);
 
-      const leftPx = (c + 0.5) * colWpx;
-      const topPx  = (wrapH * 0.25) + (r + 0.5) * rowHpx;
+        const r = rowIndex[cell[0]];
+        const c = cell[1] - 1; // 0..7
 
-      const sizePx = Math.floor(Math.min(colWpx, rowHpx) * 0.82);
+        // Layout del mapa: 25% arriba, 50% grilla, 25% abajo (dentro DE LA IMAGEN)
+        const colW = rect.w / 8;
+        const rowH = (rect.h * 0.50) / 6;
 
-      ring.style.width  = sizePx + "px";
-      ring.style.height = sizePx + "px";
-      ring.style.left   = leftPx + "px";
-      ring.style.top    = topPx + "px";
-      ring.style.display = "block";
+        const left = rect.x + (c + 0.5) * colW;
+        const top  = rect.y + (rect.h * 0.25) + (r + 0.5) * rowH;
+
+        // Tamaño: 82% de la celda (para que no toque otra)
+        const size = Math.min(colW, rowH) * 0.82;
+
+        ring.style.width = `${size}px`;
+        ring.style.height = `${size}px`;
+        ring.style.left = `${left}px`;
+        ring.style.top  = `${top}px`;
+        ring.style.display = "block";
+      };
+
+      if (img.complete && img.naturalWidth) place();
+      else img.onload = place;
     }
 
-    function cerrarMapa() { el("modalOverlay").style.display = "none"; }
+    function cerrarMapa() {
+      el("modalOverlay").style.display = "none";
+    }
 
-    // ===== BUSQUEDAS =====
     function buscarPorApellido() {
       limpiarPantalla();
+
       const q = normalizarTexto(el("busqueda").value);
-      if (!q) { setError("⚠️ Escribe un apellido antes de buscar."); return; }
+      if (!q) {
+        setError("⚠️ Escribe un apellido antes de buscar.");
+        return;
+      }
 
       const tokens = q.split(" ").filter(Boolean);
 
@@ -630,11 +654,19 @@
 
     function buscarPorMesa() {
       limpiarPantalla();
+
       const mesaKey = normalizarMesa(el("busqueda").value);
-      if (!mesaKey) { setError("⚠️ Ingresa un número de mesa válido."); return; }
+      if (!mesaKey) {
+        setError("⚠️ Ingresa un número de mesa válido.");
+        return;
+      }
 
       const resultados = invitados.filter(inv => inv.mesaKey === mesaKey);
-      if (resultados.length === 0) { setError(`❌ No se encontró la mesa ${mesaKey}.`); return; }
+
+      if (resultados.length === 0) {
+        setError(`❌ No se encontró la mesa ${mesaKey}.`);
+        return;
+      }
 
       renderResultadosMesa(resultados, mesaKey);
       setCount(resultados.length);
@@ -661,6 +693,7 @@
 
     function renderResultadosMesa(resultados, mesaKey) {
       const cont = el("resultados");
+
       const header = `<div class="mesaHeader">🪑 MESA ${escapeHTML(mesaKey)}</div>`;
       resultados.sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
 
@@ -694,8 +727,18 @@
         else buscarPorApellido();
       });
 
-      window.addEventListener("resize", setAppHeight, { passive: true });
-      window.addEventListener("orientationchange", () => setTimeout(setAppHeight, 50), { passive: true });
+      // Reposicionar el aro si cambias orientación mientras el modal está abierto
+      window.addEventListener("resize", () => {
+        setAppHeight();
+        if (el("modalOverlay").style.display === "flex") abrirMapa();
+      }, { passive: true });
+
+      window.addEventListener("orientationchange", () => {
+        setTimeout(() => {
+          setAppHeight();
+          if (el("modalOverlay").style.display === "flex") abrirMapa();
+        }, 100);
+      }, { passive: true });
     }
 
     document.addEventListener("DOMContentLoaded", init);
