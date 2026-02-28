@@ -11,10 +11,12 @@
       --brand-blue-dark: #17487c;
       --brand-yellow: #f2b300;
       --brand-yellow-dark: #d79200;
+
       --card-bg: rgba(255, 255, 255, 0.86);
       --card-blur: 6px;
       --shadow: 0px 10px 34px rgba(0,0,0,0.24);
       --radius: 18px;
+
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --app-height: 100svh;
@@ -143,11 +145,10 @@
       color: #222;
     }
 
-    /* Botón mapa: mismo estilo azul (como el de apellido), para coherencia */
     .btnMapa {
       background: linear-gradient(180deg, #1e5fa5, var(--brand-blue-dark));
       color: #fff;
-      display: none; /* aparece solo cuando corresponda */
+      display: none;
     }
 
     .resultados {
@@ -267,26 +268,33 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: calc(16px + var(--safe-top)) 16px calc(16px + var(--safe-bottom));
+      padding: calc(12px + var(--safe-top)) 12px calc(12px + var(--safe-bottom));
       box-sizing: border-box;
       z-index: 9999;
     }
 
     .modal {
       width: min(520px, 100%);
-      background: rgba(255,255,255,0.95);
+      max-height: calc(var(--app-height) - 24px - var(--safe-top) - var(--safe-bottom));
+      background: rgba(255,255,255,0.96);
       border-radius: 18px;
       box-shadow: 0px 16px 50px rgba(0,0,0,0.35);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
+    /* Header siempre visible */
     .modalHeader {
+      position: sticky;
+      top: 0;
+      z-index: 5;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
       padding: 12px 14px;
-      background: rgba(30,77,123,0.08);
+      background: rgba(30,77,123,0.10);
       border-bottom: 1px solid rgba(0,0,0,0.08);
     }
 
@@ -294,24 +302,34 @@
       font-weight: 900;
       color: var(--brand-blue);
       font-size: 16px;
+      line-height: 1.1;
     }
 
     .btnCerrar {
       border: none;
-      background: rgba(30,77,123,0.12);
+      background: rgba(30,77,123,0.14);
       color: var(--brand-blue);
       font-weight: 900;
       padding: 10px 12px;
       border-radius: 12px;
       cursor: pointer;
+      white-space: nowrap;
     }
     .btnCerrar:active { transform: scale(0.99); }
+
+    /* Área del mapa scrollable si el teléfono es chico */
+    .modalBody {
+      flex: 1;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      background: #f3f3f3;
+    }
 
     .mapWrap {
       position: relative;
       width: 100%;
-      aspect-ratio: 9 / 16; /* mantiene portrait aunque cambie el ancho */
-      background: #eee;
+      aspect-ratio: 9 / 16; /* portrait */
+      background: #f3f3f3;
     }
 
     .mapImg {
@@ -323,14 +341,16 @@
       display: block;
     }
 
-    /* Aro verde (posición se calcula en JS en % del contenedor) */
+    /* Halo AZUL (mismo tono de la app) */
     .ring {
       position: absolute;
-      width: var(--ring-size, 7.5%);
-      height: var(--ring-size, 7.5%);
+      width: var(--ring-size, 8.5%);
+      height: var(--ring-size, 8.5%);
       border-radius: 999px;
-      border: 10px solid rgba(45, 180, 75, 1);
-      box-shadow: 0 0 0 6px rgba(45, 180, 75, 0.35);
+      border: 10px solid rgba(30, 77, 123, 1);
+      box-shadow:
+        0 0 0 7px rgba(30, 77, 123, 0.28),
+        0 0 18px rgba(30, 77, 123, 0.35);
       transform: translate(-50%, -50%);
       left: 50%;
       top: 50%;
@@ -387,9 +407,11 @@
         <button class="btnCerrar" id="btnCerrar" type="button">Cerrar ✕</button>
       </div>
 
-      <div class="mapWrap" id="mapWrap">
-        <img class="mapImg" src="mapa.png" alt="Mapa de mesas" />
-        <div class="ring" id="ring"></div>
+      <div class="modalBody">
+        <div class="mapWrap" id="mapWrap">
+          <img class="mapImg" id="mapImg" src="mapa.png" alt="Mapa de mesas" />
+          <div class="ring" id="ring"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -397,19 +419,19 @@
   <script>
     "use strict";
 
-    // --- CONFIG
+    // ===== CONFIG =====
     const MAP_IMAGE_FILENAME = "mapa.png";
 
-    // --- ESTADO
+    // ===== ESTADO =====
     let invitados = [];
-    let mesaSeleccionada = null; // número (string) de mesa detectada
+    let mesaSeleccionada = null;
 
     // iOS Safari: fijar altura real para evitar “vh” incorrecto
     function setAppHeight() {
       document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
     }
 
-    // Quita tildes, pasa a minúsculas, normaliza espacios
+    // Quita tildes, minúsculas, espacios
     function normalizarTexto(texto) {
       return String(texto || "")
         .toLowerCase()
@@ -479,9 +501,7 @@
       mesaSeleccionada = null;
     }
 
-    function setError(msg) {
-      el("mensajeError").innerText = msg;
-    }
+    function setError(msg) { el("mensajeError").innerText = msg; }
 
     function setCount(n, label = "Invitados encontrados") {
       el("contador").innerText = `${label}: ${n}`;
@@ -539,9 +559,8 @@
       }
     }
 
-    // --- MAPA: ubicación por mesa (en porcentaje dentro del contenedor del mapa)
-    // El mapa tiene 25% arriba (baile), 50% medio (grilla 6x8), 25% abajo (ingreso)
-    // Para mesas numéricas: usamos la celda (fila, col) según tu layout.
+    // ===== MAPA: ubicación por mesa (fila A-F, col 1-8) =====
+    // Grilla 6x8 en el 50% central. 25% arriba (baile) + 25% abajo (ingreso).
     const mesaToCell = {
       "1":  ["A",3], "2":  ["A",4], "3":  ["A",5], "4":  ["A",6], "5":  ["A",7], "6":  ["A",8],
       "7":  ["B",8], "8":  ["B",7], "9":  ["B",6], "10": ["B",5], "11": ["B",4], "12": ["B",3], "13": ["B",2],
@@ -550,45 +569,38 @@
       "28": ["E",2], "29": ["E",3], "30": ["E",4], "31": ["E",5], "32": ["E",6], "33": ["E",7], "34": ["E",8],
       "35": ["F",8], "36": ["F",7], "37": ["F",6], "38": ["F",5], "39": ["F",4], "40": ["F",3]
     };
-
     const rowIndex = { "A":0, "B":1, "C":2, "D":3, "E":4, "F":5 };
 
     function mostrarBotonMapa(mesaNum) {
       mesaSeleccionada = String(mesaNum);
       el("btnMapa").style.display = "block";
     }
-
-    function ocultarBotonMapa() {
-      el("btnMapa").style.display = "none";
-    }
+    function ocultarBotonMapa() { el("btnMapa").style.display = "none"; }
 
     function abrirMapa() {
       if (!mesaSeleccionada) return;
 
+      // asegurar que el src sea correcto
+      el("mapImg").src = MAP_IMAGE_FILENAME;
+
       el("modalOverlay").style.display = "flex";
       el("modalTitle").innerText = `Ubicación de tu mesa: ${mesaSeleccionada}`;
 
-      // Posicionar aro
-      const cell = mesaToCell[mesaSeleccionada];
       const ring = el("ring");
-
-      if (!cell) {
-        ring.style.display = "none";
-        return;
-      }
+      const cell = mesaToCell[mesaSeleccionada];
+      if (!cell) { ring.style.display = "none"; return; }
 
       const r = rowIndex[cell[0]];
       const c = cell[1] - 1; // 0..7
 
-      // Centro de celda en %
-      const colW = 100 / 8;         // 12.5%
-      const rowH = 50 / 6;          // 8.333...% (porque grilla ocupa 50% central)
+      // Centro de celda en % del contenedor
+      const colW = 100 / 8;       // 12.5%
+      const rowH = 50 / 6;        // 8.333...% (grilla ocupa 50% central)
       const left = (c + 0.5) * colW;
       const top  = 25 + (r + 0.5) * rowH;
 
-      // Tamaño del aro: basado en altura de celda (la menor dimensión)
-      // min(colW, rowH) ~ 8.33% -> aro ~ 7.5% se ve fuerte y no tapa
-      const ringSize = 7.6;
+      // Halo: un poco más grande para que se note bien
+      const ringSize = 9.2;
 
       ring.style.setProperty("--ring-size", ringSize + "%");
       ring.style.left = left + "%";
@@ -596,19 +608,14 @@
       ring.style.display = "block";
     }
 
-    function cerrarMapa() {
-      el("modalOverlay").style.display = "none";
-    }
+    function cerrarMapa() { el("modalOverlay").style.display = "none"; }
 
-    // --- BÚSQUEDA POR APELLIDO (soporta múltiples palabras)
+    // ===== BÚSQUEDAS =====
     function buscarPorApellido() {
       limpiarPantalla();
 
       const q = normalizarTexto(el("busqueda").value);
-      if (!q) {
-        setError("⚠️ Escribe un apellido antes de buscar.");
-        return;
-      }
+      if (!q) { setError("⚠️ Escribe un apellido antes de buscar."); return; }
 
       const tokens = q.split(" ").filter(Boolean);
 
@@ -625,38 +632,26 @@
       renderResultadosApellido(resultados);
       setCount(resultados.length);
 
-      // Si todos los resultados tienen la MISMA mesa numérica, mostramos el botón de mapa
       const mesas = [...new Set(resultados.map(x => x.mesaKey).filter(Boolean))];
       if (mesas.length === 1) {
         mostrarBotonMapa(mesas[0]);
       } else {
-        // Si hay varias mesas, mejor forzar a buscar por mesa para evitar confusión
         ocultarBotonMapa();
         setError("ℹ️ Aparecen varias mesas con ese apellido. Para ver el mapa, busca por número de mesa.");
       }
     }
 
-    // --- BÚSQUEDA POR MESA (solo números)
     function buscarPorMesa() {
       limpiarPantalla();
 
       const mesaKey = normalizarMesa(el("busqueda").value);
-      if (!mesaKey) {
-        setError("⚠️ Ingresa un número de mesa válido.");
-        return;
-      }
+      if (!mesaKey) { setError("⚠️ Ingresa un número de mesa válido."); return; }
 
       const resultados = invitados.filter(inv => inv.mesaKey === mesaKey);
-
-      if (resultados.length === 0) {
-        setError(`❌ No se encontró la mesa ${mesaKey}.`);
-        return;
-      }
+      if (resultados.length === 0) { setError(`❌ No se encontró la mesa ${mesaKey}.`); return; }
 
       renderResultadosMesa(resultados, mesaKey);
       setCount(resultados.length);
-
-      // Aquí siempre mostramos botón de mapa
       mostrarBotonMapa(mesaKey);
     }
 
