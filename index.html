@@ -17,13 +17,10 @@
       --radius: 18px;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --app-height: 100svh; /* JS la reemplaza en iOS para evitar “vh” malo */
+      --app-height: 100svh;
     }
 
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
+    html, body { height: 100%; margin: 0; }
 
     body {
       font-family: Arial, sans-serif;
@@ -69,7 +66,6 @@
       text-align: center;
       white-space: nowrap;
       line-height: 1.05;
-
       font-size: clamp(28px, 6.2vw, 38px);
       letter-spacing: 0.2px;
 
@@ -120,7 +116,6 @@
       outline: none;
       background: rgba(255,255,255,0.95);
     }
-
     .campo:focus {
       border-color: var(--brand-blue);
       box-shadow: 0px 0px 10px rgba(30, 77, 123, 0.30);
@@ -136,6 +131,7 @@
       cursor: pointer;
       transition: transform 0.18s ease, filter 0.18s ease;
     }
+    .boton:active { transform: scale(0.99); }
 
     .btnApellido {
       background: linear-gradient(180deg, #1e5fa5, var(--brand-blue-dark));
@@ -147,8 +143,11 @@
       color: #222;
     }
 
-    .boton:active {
-      transform: scale(0.99);
+    /* Botón mapa: mismo estilo azul (como el de apellido), para coherencia */
+    .btnMapa {
+      background: linear-gradient(180deg, #1e5fa5, var(--brand-blue-dark));
+      color: #fff;
+      display: none; /* aparece solo cuando corresponda */
     }
 
     .resultados {
@@ -260,20 +259,89 @@
       min-height: 20px;
     }
 
-    .baseInfo{
-      text-align: center;
+    /* ---------- MODAL MAPA ---------- */
+    .modalOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: calc(16px + var(--safe-top)) 16px calc(16px + var(--safe-bottom));
+      box-sizing: border-box;
+      z-index: 9999;
+    }
+
+    .modal {
+      width: min(520px, 100%);
+      background: rgba(255,255,255,0.95);
+      border-radius: 18px;
+      box-shadow: 0px 16px 50px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .modalHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      background: rgba(30,77,123,0.08);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .modalTitle {
       font-weight: 900;
-      font-size: 14px;
-      color: rgba(0,0,0,0.55);
-      margin-top: -2px;
-      min-height: 18px;
+      color: var(--brand-blue);
+      font-size: 16px;
+    }
+
+    .btnCerrar {
+      border: none;
+      background: rgba(30,77,123,0.12);
+      color: var(--brand-blue);
+      font-weight: 900;
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .btnCerrar:active { transform: scale(0.99); }
+
+    .mapWrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9 / 16; /* mantiene portrait aunque cambie el ancho */
+      background: #eee;
+    }
+
+    .mapImg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Aro verde (posición se calcula en JS en % del contenedor) */
+    .ring {
+      position: absolute;
+      width: var(--ring-size, 7.5%);
+      height: var(--ring-size, 7.5%);
+      border-radius: 999px;
+      border: 10px solid rgba(45, 180, 75, 1);
+      box-shadow: 0 0 0 6px rgba(45, 180, 75, 0.35);
+      transform: translate(-50%, -50%);
+      left: 50%;
+      top: 50%;
+      display: none;
+      pointer-events: none;
     }
 
     @media (max-height: 700px) {
       .contenedor { padding: 16px; gap: 8px; }
       .resultados { min-height: 100px; }
     }
-
     @media (max-width: 360px) {
       .contenedor { padding: 16px; }
       .mesaBadge { font-size: 13px; padding: 6px 10px; }
@@ -307,20 +375,41 @@
     <div id="resultados" class="resultados" aria-live="polite"></div>
     <div id="contador" class="contador"></div>
     <div id="mensajeError" class="mensajeError"></div>
-    <div id="baseInfo" class="baseInfo"></div>
+
+    <button class="boton btnMapa" id="btnMapa" type="button">🗺️ Ver dónde queda mi mesa</button>
+  </div>
+
+  <!-- Modal mapa -->
+  <div class="modalOverlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Mapa de mesas">
+    <div class="modal">
+      <div class="modalHeader">
+        <div class="modalTitle" id="modalTitle">Ubicación de tu mesa</div>
+        <button class="btnCerrar" id="btnCerrar" type="button">Cerrar ✕</button>
+      </div>
+
+      <div class="mapWrap" id="mapWrap">
+        <img class="mapImg" src="mapa.png" alt="Mapa de mesas" />
+        <div class="ring" id="ring"></div>
+      </div>
+    </div>
   </div>
 
   <script>
     "use strict";
 
-    let invitados = [];
+    // --- CONFIG
+    const MAP_IMAGE_FILENAME = "mapa.png";
 
-    // --- iOS Safari: fijar altura real para evitar “vh” incorrecto
+    // --- ESTADO
+    let invitados = [];
+    let mesaSeleccionada = null; // número (string) de mesa detectada
+
+    // iOS Safari: fijar altura real para evitar “vh” incorrecto
     function setAppHeight() {
       document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
     }
 
-    // Quita tildes, pasa a minúsculas, normaliza espacios (Ñ -> n)
+    // Quita tildes, pasa a minúsculas, normaliza espacios
     function normalizarTexto(texto) {
       return String(texto || "")
         .toLowerCase()
@@ -330,8 +419,7 @@
         .trim();
     }
 
-    // Normaliza mesa: SOLO números (para buscar mesa 1..40)
-    // Si viene "N" u otra cosa, queda vacío y se descarta para búsqueda por mesa.
+    // Normaliza mesa: SOLO números
     function normalizarMesa(valor) {
       const t = String(valor || "").replace(/["']/g, "").trim();
       const num = parseInt(t, 10);
@@ -387,7 +475,8 @@
       el("resultados").innerHTML = "";
       el("contador").innerText = "";
       el("mensajeError").innerText = "";
-      // baseInfo NO se limpia: queremos que siempre se vea
+      ocultarBotonMapa();
+      mesaSeleccionada = null;
     }
 
     function setError(msg) {
@@ -398,8 +487,13 @@
       el("contador").innerText = `${label}: ${n}`;
     }
 
-    function setBaseInfo(n) {
-      el("baseInfo").innerText = `Base cargada: ${n} registros`;
+    function escapeHTML(str) {
+      return String(str || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
     async function cargarCSV() {
@@ -414,15 +508,14 @@
         const headers = rows[0].map(h => normalizarTexto(h));
         const idxNombre = headers.indexOf("nombre");
         const idxMesa   = headers.indexOf("mesa");
-        // grupo y rol pueden existir, pero no son obligatorios para que funcione
-        const idxGrupo = headers.indexOf("grupo");
-        const idxRol   = headers.indexOf("rol");
+        const idxGrupo  = headers.indexOf("grupo");
+        const idxRol    = headers.indexOf("rol");
 
         if (idxNombre === -1 || idxMesa === -1) {
           throw new Error("Encabezados requeridos no encontrados (nombre, mesa).");
         }
 
-        const parsed = rows.slice(1).map(r => {
+        invitados = rows.slice(1).map(r => {
           const nombre = (r[idxNombre] || "").trim();
           const mesa   = (r[idxMesa]   || "").trim();
 
@@ -437,38 +530,90 @@
             nombreKey: normalizarTexto(nombre),
             mesaKey: normalizarMesa(mesa)
           };
-        }).filter(x => x.nombre); // mantenemos todos con nombre (aunque mesa sea "N")
-
-        invitados = parsed;
-
-        // Base cargada = total de filas con nombre
-        setBaseInfo(invitados.length);
+        }).filter(x => x.nombre);
 
       } catch (err) {
         console.error("Error cargando/parsing CSV:", err);
         setError("⚠️ Error al cargar invitados. Revisa invitados.csv (encabezados: nombre, mesa).");
-        setBaseInfo(0);
+        invitados = [];
       }
+    }
+
+    // --- MAPA: ubicación por mesa (en porcentaje dentro del contenedor del mapa)
+    // El mapa tiene 25% arriba (baile), 50% medio (grilla 6x8), 25% abajo (ingreso)
+    // Para mesas numéricas: usamos la celda (fila, col) según tu layout.
+    const mesaToCell = {
+      "1":  ["A",3], "2":  ["A",4], "3":  ["A",5], "4":  ["A",6], "5":  ["A",7], "6":  ["A",8],
+      "7":  ["B",8], "8":  ["B",7], "9":  ["B",6], "10": ["B",5], "11": ["B",4], "12": ["B",3], "13": ["B",2],
+      "14": ["C",1], "15": ["C",2], "16": ["C",3], "17": ["C",4], "18": ["C",6], "19": ["C",7], "20": ["C",8],
+      "21": ["D",8], "22": ["D",7], "23": ["D",6], "24": ["D",4], "25": ["D",3], "26": ["D",2], "27": ["D",1],
+      "28": ["E",2], "29": ["E",3], "30": ["E",4], "31": ["E",5], "32": ["E",6], "33": ["E",7], "34": ["E",8],
+      "35": ["F",8], "36": ["F",7], "37": ["F",6], "38": ["F",5], "39": ["F",4], "40": ["F",3]
+    };
+
+    const rowIndex = { "A":0, "B":1, "C":2, "D":3, "E":4, "F":5 };
+
+    function mostrarBotonMapa(mesaNum) {
+      mesaSeleccionada = String(mesaNum);
+      el("btnMapa").style.display = "block";
+    }
+
+    function ocultarBotonMapa() {
+      el("btnMapa").style.display = "none";
+    }
+
+    function abrirMapa() {
+      if (!mesaSeleccionada) return;
+
+      el("modalOverlay").style.display = "flex";
+      el("modalTitle").innerText = `Ubicación de tu mesa: ${mesaSeleccionada}`;
+
+      // Posicionar aro
+      const cell = mesaToCell[mesaSeleccionada];
+      const ring = el("ring");
+
+      if (!cell) {
+        ring.style.display = "none";
+        return;
+      }
+
+      const r = rowIndex[cell[0]];
+      const c = cell[1] - 1; // 0..7
+
+      // Centro de celda en %
+      const colW = 100 / 8;         // 12.5%
+      const rowH = 50 / 6;          // 8.333...% (porque grilla ocupa 50% central)
+      const left = (c + 0.5) * colW;
+      const top  = 25 + (r + 0.5) * rowH;
+
+      // Tamaño del aro: basado en altura de celda (la menor dimensión)
+      // min(colW, rowH) ~ 8.33% -> aro ~ 7.5% se ve fuerte y no tapa
+      const ringSize = 7.6;
+
+      ring.style.setProperty("--ring-size", ringSize + "%");
+      ring.style.left = left + "%";
+      ring.style.top  = top + "%";
+      ring.style.display = "block";
+    }
+
+    function cerrarMapa() {
+      el("modalOverlay").style.display = "none";
     }
 
     // --- BÚSQUEDA POR APELLIDO (soporta múltiples palabras)
     function buscarPorApellido() {
       limpiarPantalla();
 
-      const input = el("busqueda").value;
-      const q = normalizarTexto(input);
-
+      const q = normalizarTexto(el("busqueda").value);
       if (!q) {
         setError("⚠️ Escribe un apellido antes de buscar.");
         return;
       }
 
-      // Permite varias palabras: "garcia huidobro", "de la fuente", etc.
       const tokens = q.split(" ").filter(Boolean);
 
       const resultados = invitados.filter(inv => {
         const palabras = inv.nombreKey.split(" ");
-        // Todas las palabras buscadas deben existir como palabra completa en el nombre
         return tokens.every(t => palabras.includes(t));
       });
 
@@ -479,21 +624,28 @@
 
       renderResultadosApellido(resultados);
       setCount(resultados.length);
+
+      // Si todos los resultados tienen la MISMA mesa numérica, mostramos el botón de mapa
+      const mesas = [...new Set(resultados.map(x => x.mesaKey).filter(Boolean))];
+      if (mesas.length === 1) {
+        mostrarBotonMapa(mesas[0]);
+      } else {
+        // Si hay varias mesas, mejor forzar a buscar por mesa para evitar confusión
+        ocultarBotonMapa();
+        setError("ℹ️ Aparecen varias mesas con ese apellido. Para ver el mapa, busca por número de mesa.");
+      }
     }
 
     // --- BÚSQUEDA POR MESA (solo números)
     function buscarPorMesa() {
       limpiarPantalla();
 
-      const input = el("busqueda").value;
-      const mesaKey = normalizarMesa(input);
-
+      const mesaKey = normalizarMesa(el("busqueda").value);
       if (!mesaKey) {
         setError("⚠️ Ingresa un número de mesa válido.");
         return;
       }
 
-      // Solo invitados con mesa numérica
       const resultados = invitados.filter(inv => inv.mesaKey === mesaKey);
 
       if (resultados.length === 0) {
@@ -503,6 +655,9 @@
 
       renderResultadosMesa(resultados, mesaKey);
       setCount(resultados.length);
+
+      // Aquí siempre mostramos botón de mapa
+      mostrarBotonMapa(mesaKey);
     }
 
     function renderResultadosApellido(resultados) {
@@ -526,10 +681,7 @@
     function renderResultadosMesa(resultados, mesaKey) {
       const cont = el("resultados");
 
-      const header = `
-        <div class="mesaHeader">🪑 MESA ${escapeHTML(mesaKey)}</div>
-      `;
-
+      const header = `<div class="mesaHeader">🪑 MESA ${escapeHTML(mesaKey)}</div>`;
       resultados.sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
 
       const rows = resultados.map(inv => `
@@ -537,15 +689,6 @@
       `).join("");
 
       cont.innerHTML = header + rows;
-    }
-
-    function escapeHTML(str) {
-      return String(str || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
     }
 
     function init() {
@@ -558,6 +701,12 @@
       el("btnApellido").addEventListener("click", buscarPorApellido);
       el("btnMesa").addEventListener("click", buscarPorMesa);
 
+      el("btnMapa").addEventListener("click", abrirMapa);
+      el("btnCerrar").addEventListener("click", cerrarMapa);
+      el("modalOverlay").addEventListener("click", (e) => {
+        if (e.target === el("modalOverlay")) cerrarMapa();
+      });
+
       el("busqueda").addEventListener("keydown", (e) => {
         if (e.key !== "Enter") return;
         const v = el("busqueda").value.trim();
@@ -566,9 +715,7 @@
       });
 
       window.addEventListener("resize", setAppHeight, { passive: true });
-      window.addEventListener("orientationchange", () => {
-        setTimeout(setAppHeight, 50);
-      }, { passive: true });
+      window.addEventListener("orientationchange", () => setTimeout(setAppHeight, 50), { passive: true });
     }
 
     document.addEventListener("DOMContentLoaded", init);
