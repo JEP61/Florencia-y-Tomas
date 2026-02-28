@@ -15,6 +15,7 @@
       --card-blur: 6px;
       --shadow: 0px 10px 34px rgba(0,0,0,0.24);
       --radius: 18px;
+
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --app-height: 100svh;
@@ -22,7 +23,7 @@
 
     html, body { height: 100%; margin: 0; }
 
-    body {
+    body{
       font-family: Arial, sans-serif;
       background: url("fondo.jpg") no-repeat center center;
       background-size: cover;
@@ -36,11 +37,10 @@
 
       padding: calc(16px + var(--safe-top)) 16px calc(16px + var(--safe-bottom));
       box-sizing: border-box;
-
       overflow: hidden;
     }
 
-    .contenedor {
+    .contenedor{
       width: 100%;
       max-width: 420px;
 
@@ -59,7 +59,7 @@
       gap: 10px;
     }
 
-    h1 {
+    h1{
       margin: 0;
       color: var(--brand-blue);
       font-weight: 900;
@@ -75,7 +75,7 @@
       gap: 10px;
     }
 
-    .novios {
+    .novios{
       text-align: center;
       font-weight: 900;
       color: var(--brand-blue);
@@ -86,7 +86,7 @@
       margin-bottom: 4px;
     }
 
-    .instruccion {
+    .instruccion{
       text-align: center;
       font-size: clamp(16px, 3.9vw, 20px);
       font-weight: 800;
@@ -95,7 +95,7 @@
       margin: 0;
     }
 
-    .ejemplo {
+    .ejemplo{
       text-align: center;
       margin: 0;
       font-size: clamp(14px, 3.4vw, 18px);
@@ -104,7 +104,7 @@
       opacity: 0.95;
     }
 
-    .campo {
+    .campo{
       width: 100%;
       padding: 14px 14px;
       border-radius: 12px;
@@ -116,12 +116,12 @@
       outline: none;
       background: rgba(255,255,255,0.95);
     }
-    .campo:focus {
+    .campo:focus{
       border-color: var(--brand-blue);
       box-shadow: 0px 0px 10px rgba(30, 77, 123, 0.30);
     }
 
-    .boton {
+    .boton{
       width: 100%;
       padding: 14px;
       border-radius: 14px;
@@ -131,25 +131,25 @@
       cursor: pointer;
       transition: transform 0.18s ease, filter 0.18s ease;
     }
-    .boton:active { transform: scale(0.99); }
+    .boton:active{ transform: scale(0.99); }
 
-    .btnApellido {
+    .btnApellido{
       background: linear-gradient(180deg, #1e5fa5, var(--brand-blue-dark));
       color: #fff;
     }
 
-    .btnMesa {
+    .btnMesa{
       background: linear-gradient(180deg, var(--brand-yellow), var(--brand-yellow-dark));
       color: #222;
     }
 
-    .btnMapa {
+    .btnMapa{
       background: linear-gradient(180deg, #1e5fa5, var(--brand-blue-dark));
       color: #fff;
       display: none;
     }
 
-    .resultados {
+    .resultados{
       margin-top: 4px;
       padding-right: 4px;
       overflow-y: auto;
@@ -160,13 +160,13 @@
       border-radius: 14px;
     }
 
-    .resultados::-webkit-scrollbar { width: 8px; }
-    .resultados::-webkit-scrollbar-thumb {
+    .resultados::-webkit-scrollbar{ width: 8px; }
+    .resultados::-webkit-scrollbar-thumb{
       background: rgba(30, 77, 123, 0.35);
       border-radius: 10px;
     }
 
-    .mesaHeader {
+    .mesaHeader{
       display: flex;
       align-items: center;
       justify-content: center;
@@ -186,7 +186,7 @@
       text-transform: uppercase;
     }
 
-    .resultadoItem {
+    .resultadoItem{
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -204,7 +204,7 @@
       font-size: clamp(15px, 3.9vw, 18px);
     }
 
-    .nombreFlex {
+    .nombreFlex{
       flex: 1;
       min-width: 0;
       white-space: nowrap;
@@ -212,7 +212,7 @@
       text-overflow: ellipsis;
     }
 
-    .mesaBadge {
+    .mesaBadge{
       flex: 0 0 auto;
       background: linear-gradient(180deg, var(--brand-yellow), var(--brand-yellow-dark));
       color: #1a1a1a;
@@ -224,7 +224,7 @@
       box-shadow: 0px 3px 8px rgba(0,0,0,0.12);
     }
 
-    .resultadoMesaRow {
+    .resultadoMesaRow{
       background: rgba(30, 77, 123, 0.10);
       border-left: 6px solid var(--brand-blue);
       border-radius: 12px;
@@ -241,7 +241,7 @@
       text-overflow: ellipsis;
     }
 
-    .contador {
+    .contador{
       text-align: center;
       font-weight: 900;
       font-size: 16px;
@@ -250,7 +250,7 @@
       min-height: 20px;
     }
 
-    .mensajeError {
+    .mensajeError{
       text-align: center;
       font-weight: 900;
       font-size: 16px;
@@ -259,7 +259,7 @@
     }
 
     /* ---------- MODAL MAPA ---------- */
-    .modalOverlay {
+    .modalOverlay{
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.55);
@@ -271,15 +271,17 @@
       z-index: 9999;
     }
 
-    .modal {
-      width: min(520px, 100%);
-      background: rgba(255,255,255,0.95);
+    .modal{
+      width: min(560px, 100%);
+      background: rgba(255,255,255,0.97);
       border-radius: 18px;
       box-shadow: 0px 16px 50px rgba(0,0,0,0.35);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
-    .modalHeader {
+    .modalHeader{
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -289,69 +291,72 @@
       border-bottom: 1px solid rgba(0,0,0,0.08);
     }
 
-    .modalTitle {
+    .modalTitle{
       font-weight: 900;
       color: var(--brand-blue);
-      font-size: 16px;
+      font-size: clamp(16px, 3.8vw, 19px);
     }
 
-    /* ✅ BOTÓN CERRAR MEJORADO (ESTILO APP) */
+    /* BOTÓN CERRAR MÁS DESTACADO */
     .btnCerrar{
-      border:none;
-      cursor:pointer;
-
-      padding: 12px 14px;
-      border-radius: 14px;
-
-      background: linear-gradient(180deg, #1e5fa5, var(--brand-blue-dark));
-      color: #fff;
-
+      border: none;
+      background: linear-gradient(180deg, rgba(30,95,165,0.20), rgba(23,72,124,0.18));
+      color: var(--brand-blue-dark);
       font-weight: 900;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-
-      box-shadow: 0px 8px 18px rgba(0,0,0,0.18);
-      transition: transform 0.18s ease, filter 0.18s ease;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: clamp(15px, 3.6vw, 18px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      white-space: nowrap;
     }
     .btnCerrar:active{ transform: scale(0.99); }
 
-    .mapWrap {
+    .modalBody{
+      padding: 10px 10px 12px;
+    }
+
+    .mapWrap{
       position: relative;
       width: 100%;
       aspect-ratio: 9 / 16;
       background: #eee;
+      border-radius: 14px;
+      overflow: hidden;
     }
 
-    .mapImg {
+    .mapImg{
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
-    /* Aro fino circular, centrado con coords de imagen */
-    .ring {
+    /* ARO: circular, con baño semi-transparente */
+    .ring{
       position: absolute;
       border-radius: 999px;
-      background: rgba(30,77,123,0.18);
+      background: rgba(30,77,123,0.18);    /* baño */
       border: 9px solid rgba(30,77,123,0.95);
       box-shadow:
-        0 0 0 6px rgba(30,77,123,0.18),
+        0 0 0 6px rgba(30,77,123,0.16),
         0 10px 28px rgba(0,0,0,0.18);
       transform: translate(-50%, -50%);
       display: none;
       pointer-events: none;
     }
 
-    @media (max-height: 700px) {
-      .contenedor { padding: 16px; gap: 8px; }
-      .resultados { min-height: 100px; }
+    @media (max-height: 700px){
+      .contenedor{ padding: 16px; gap: 8px; }
+      .resultados{ min-height: 100px; }
     }
-    @media (max-width: 360px) {
-      .contenedor { padding: 16px; }
-      .mesaBadge { font-size: 13px; padding: 6px 10px; }
+    @media (max-width: 360px){
+      .contenedor{ padding: 16px; }
+      .mesaBadge{ font-size: 13px; padding: 6px 10px; }
     }
   </style>
 </head>
@@ -394,9 +399,11 @@
         <button class="btnCerrar" id="btnCerrar" type="button">Cerrar ✕</button>
       </div>
 
-      <div class="mapWrap" id="mapWrap">
-        <img class="mapImg" id="mapImg" src="mapa.png" alt="Mapa de mesas" />
-        <div class="ring" id="ring"></div>
+      <div class="modalBody">
+        <div class="mapWrap" id="mapWrap">
+          <img class="mapImg" id="mapImg" src="mapa.png" alt="Mapa de mesas" />
+          <div class="ring" id="ring"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -404,15 +411,25 @@
   <script>
     "use strict";
 
-    // --- ESTADO
+    /* ==========================
+       CONFIG CACHE-BUST
+       ========================== */
+    // Cambia este string cuando subas cambios (fuerza recarga real en iOS/Safari)
+    const ASSET_VER = "v2026-02-28-01";
+
+    /* ==========================
+       ESTADO
+       ========================== */
     let invitados = [];
     let mesaSeleccionada = null;
 
-    function setAppHeight() {
+    function el(id){ return document.getElementById(id); }
+
+    function setAppHeight(){
       document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
     }
 
-    function normalizarTexto(texto) {
+    function normalizarTexto(texto){
       return String(texto || "")
         .toLowerCase()
         .normalize("NFD")
@@ -421,13 +438,13 @@
         .trim();
     }
 
-    function normalizarMesa(valor) {
+    function normalizarMesa(valor){
       const t = String(valor || "").replace(/["']/g, "").trim();
       const num = parseInt(t, 10);
       return Number.isFinite(num) ? String(num) : "";
     }
 
-    function parseCSV(texto) {
+    function parseCSV(texto){
       const raw = String(texto || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
       const lines = raw.split("\n").filter(l => l.trim().length > 0);
       if (lines.length === 0) return [];
@@ -442,21 +459,21 @@
       return rows;
     }
 
-    function parseCSVLine(line, delim) {
+    function parseCSVLine(line, delim){
       const out = [];
       let cur = "";
       let inQuotes = false;
 
-      for (let i = 0; i < line.length; i++) {
+      for (let i = 0; i < line.length; i++){
         const ch = line[i];
 
-        if (ch === '"') {
-          if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+        if (ch === '"'){
+          if (inQuotes && line[i + 1] === '"'){ cur += '"'; i++; }
           else { inQuotes = !inQuotes; }
           continue;
         }
 
-        if (!inQuotes && ch === delim) {
+        if (!inQuotes && ch === delim){
           out.push(cur);
           cur = "";
           continue;
@@ -469,23 +486,7 @@
       return out.map(v => v.trim());
     }
 
-    function el(id) { return document.getElementById(id); }
-
-    function limpiarPantalla() {
-      el("resultados").innerHTML = "";
-      el("contador").innerText = "";
-      el("mensajeError").innerText = "";
-      ocultarBotonMapa();
-      mesaSeleccionada = null;
-    }
-
-    function setError(msg) { el("mensajeError").innerText = msg; }
-
-    function setCount(n, label = "Invitados encontrados") {
-      el("contador").innerText = `${label}: ${n}`;
-    }
-
-    function escapeHTML(str) {
+    function escapeHTML(str){
       return String(str || "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
@@ -494,9 +495,24 @@
         .replaceAll("'", "&#039;");
     }
 
-    async function cargarCSV() {
-      try {
-        const response = await fetch("invitados.csv", { cache: "no-store" });
+    function limpiarPantalla(){
+      el("resultados").innerHTML = "";
+      el("contador").innerText = "";
+      el("mensajeError").innerText = "";
+      ocultarBotonMapa();
+      mesaSeleccionada = null;
+    }
+
+    function setError(msg){ el("mensajeError").innerText = msg; }
+
+    function setCount(n, label = "Invitados encontrados"){
+      el("contador").innerText = `${label}: ${n}`;
+    }
+
+    async function cargarCSV(){
+      try{
+        // cache-bust también para el CSV
+        const response = await fetch(`invitados.csv?${ASSET_VER}`, { cache: "no-store" });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.text();
 
@@ -509,7 +525,7 @@
         const idxGrupo  = headers.indexOf("grupo");
         const idxRol    = headers.indexOf("rol");
 
-        if (idxNombre === -1 || idxMesa === -1) {
+        if (idxNombre === -1 || idxMesa === -1){
           throw new Error("Encabezados requeridos no encontrados (nombre, mesa).");
         }
 
@@ -530,43 +546,78 @@
           };
         }).filter(x => x.nombre);
 
-      } catch (err) {
+      } catch (err){
         console.error("Error cargando/parsing CSV:", err);
         setError("⚠️ Error al cargar invitados. Revisa invitados.csv (encabezados: nombre, mesa).");
         invitados = [];
       }
     }
 
-    // --- MAPA: mapeo mesa -> celda
-    const mesaToCell = {
-      "1":  ["A",3], "2":  ["A",4], "3":  ["A",5], "4":  ["A",6], "5":  ["A",7], "6":  ["A",8],
-      "7":  ["B",8], "8":  ["B",7], "9":  ["B",6], "10": ["B",5], "11": ["B",4], "12": ["B",3], "13": ["B",2],
-      "14": ["C",1], "15": ["C",2], "16": ["C",3], "17": ["C",4], "18": ["C",6], "19": ["C",7], "20": ["C",8],
-      "21": ["D",8], "22": ["D",7], "23": ["D",6], "24": ["D",4], "25": ["D",3], "26": ["D",2], "27": ["D",1],
-      "28": ["E",2], "29": ["E",3], "30": ["E",4], "31": ["E",5], "32": ["E",6], "33": ["E",7], "34": ["E",8],
-      "35": ["F",8], "36": ["F",7], "37": ["F",6], "38": ["F",5], "39": ["F",4], "40": ["F",3]
+    /* ==========================================================
+       MAPA: COORDS REALES (x,y) POR MESA (ratios 0..1 sobre la imagen)
+       -> Esto elimina el descuadre y el “corrimiento” que te pasaba.
+       ========================================================== */
+    const mesaToXY = {
+      "1":  { x: 0.338426, y: 0.333073 },
+      "2":  { x: 0.445833, y: 0.333073 },
+      "3":  { x: 0.552152, y: 0.333073 },
+      "4":  { x: 0.659559, y: 0.333073 },
+      "5":  { x: 0.768981, y: 0.333073 },
+      "6":  { x: 0.876389, y: 0.333073 },
+      "7":  { x: 0.876389, y: 0.399740 },
+      "8":  { x: 0.768981, y: 0.399740 },
+      "9":  { x: 0.659559, y: 0.399740 },
+      "10": { x: 0.552152, y: 0.399740 },
+      "11": { x: 0.445833, y: 0.399740 },
+      "12": { x: 0.338426, y: 0.399740 },
+      "13": { x: 0.229004, y: 0.399740 },
+      "14": { x: 0.122685, y: 0.467448 },
+      "15": { x: 0.229004, y: 0.467448 },
+      "16": { x: 0.338426, y: 0.467448 },
+      "17": { x: 0.445833, y: 0.467448 },
+      "18": { x: 0.659559, y: 0.467448 },
+      "19": { x: 0.768981, y: 0.467448 },
+      "20": { x: 0.876389, y: 0.467448 },
+      "21": { x: 0.876389, y: 0.535156 },
+      "22": { x: 0.768981, y: 0.535156 },
+      "23": { x: 0.659559, y: 0.535156 },
+      "24": { x: 0.445833, y: 0.535156 },
+      "25": { x: 0.338426, y: 0.535156 },
+      "26": { x: 0.229004, y: 0.535156 },
+      "27": { x: 0.122685, y: 0.535156 },
+      "28": { x: 0.229004, y: 0.602865 },
+      "29": { x: 0.338426, y: 0.602865 },
+      "30": { x: 0.445833, y: 0.602865 },
+      "31": { x: 0.552152, y: 0.602865 },
+      "32": { x: 0.659559, y: 0.602865 },
+      "33": { x: 0.768981, y: 0.602865 },
+      "34": { x: 0.876389, y: 0.602865 },
+      "35": { x: 0.876389, y: 0.670573 },
+      "36": { x: 0.768981, y: 0.670573 },
+      "37": { x: 0.659559, y: 0.670573 },
+      "38": { x: 0.552152, y: 0.670573 },
+      "39": { x: 0.445833, y: 0.670573 },
+      "40": { x: 0.338426, y: 0.670573 }
     };
 
-    const rowIndex = { "A":0, "B":1, "C":2, "D":3, "E":4, "F":5 };
-
-    function mostrarBotonMapa(mesaNum) {
+    function mostrarBotonMapa(mesaNum){
       mesaSeleccionada = String(mesaNum);
       el("btnMapa").style.display = "block";
     }
 
-    function ocultarBotonMapa() {
+    function ocultarBotonMapa(){
       el("btnMapa").style.display = "none";
     }
 
-    // Calcula el rectángulo real de la imagen dibujada dentro del wrap (object-fit: contain)
-    function getContainedImageRect(img, wrap) {
+    // Calcula el rectángulo real de la imagen dibujada dentro del wrap (por object-fit: contain)
+    function getContainedImageRect(img, wrap){
       const wrapW = wrap.clientWidth;
       const wrapH = wrap.clientHeight;
 
       const natW = img.naturalWidth || 0;
       const natH = img.naturalHeight || 0;
 
-      if (!natW || !natH || !wrapW || !wrapH) {
+      if (!natW || !natH || !wrapW || !wrapH){
         return { x: 0, y: 0, w: wrapW, h: wrapH };
       }
 
@@ -577,10 +628,44 @@
       const offsetX = (wrapW - dispW) / 2;
       const offsetY = (wrapH - dispH) / 2;
 
-      return { x: offsetX, y: offsetY, w: dispW, h: dispH };
+      return { x: offsetX, y: offsetY, w: dispW, h: dispH, scale };
     }
 
-    function abrirMapa() {
+    // Tamaño del aro “inteligente”: se basa en la distancia al vecino más cercano (evita cruzar mesas)
+    function computeRingSizePx(mesaKey, rect){
+      const p = mesaToXY[mesaKey];
+      if (!p) return Math.min(rect.w, rect.h) * 0.08;
+
+      // Centro en px dentro del rect
+      const cx = rect.x + p.x * rect.w;
+      const cy = rect.y + p.y * rect.h;
+
+      let minD = Infinity;
+
+      for (const k in mesaToXY){
+        if (k === mesaKey) continue;
+        const q = mesaToXY[k];
+        const x = rect.x + q.x * rect.w;
+        const y = rect.y + q.y * rect.h;
+        const d = Math.hypot(cx - x, cy - y);
+        if (d < minD) minD = d;
+      }
+
+      // estimación del diámetro de la mesa: ~96px en imagen natural de 1080x1920
+      // escalamos con rect.scale (del contain)
+      const approxTableDiameter = 96 * rect.scale;
+
+      // ring dentro del cuadrado y sin tocar vecinos:
+      // - mínimo: apenas más grande que la mesa (para quedar por fuera del círculo)
+      // - máximo: 86% de la distancia al vecino (para no cruzar)
+      const minSize = approxTableDiameter * 1.08;
+      const maxSize = minD * 0.86;
+
+      // clamp
+      return Math.max(minSize, Math.min(maxSize, minSize * 1.25));
+    }
+
+    function abrirMapa(){
       if (!mesaSeleccionada) return;
 
       el("modalOverlay").style.display = "flex";
@@ -590,31 +675,31 @@
       const wrap = el("mapWrap");
       const img  = el("mapImg");
 
-      const cell = mesaToCell[mesaSeleccionada];
-      if (!cell) {
-        ring.style.display = "none";
-        return;
-      }
+      // Cache-bust real del mapa (iOS/Safari es pesado con caché)
+      img.src = `mapa.png?${ASSET_VER}`;
 
       const place = () => {
+        const p = mesaToXY[mesaSeleccionada];
+        if (!p){
+          ring.style.display = "none";
+          return;
+        }
+
         const rect = getContainedImageRect(img, wrap);
 
-        const r = rowIndex[cell[0]];
-        const c = cell[1] - 1; // 0..7
+        const left = rect.x + p.x * rect.w;
+        const top  = rect.y + p.y * rect.h;
 
-        // Layout del mapa: 25% arriba, 50% grilla, 25% abajo (dentro de la imagen)
-        const colW = rect.w / 8;
-        const rowH = (rect.h * 0.50) / 6;
+        const size = computeRingSizePx(mesaSeleccionada, rect);
 
-        const left = rect.x + (c + 0.5) * colW;
-        const top  = rect.y + (rect.h * 0.25) + (r + 0.5) * rowH;
+        // Grosor proporcional (se ve fino y consistente)
+        const border = Math.max(6, Math.min(10, size * 0.10));
+        ring.style.borderWidth = `${border}px`;
 
-        const size = Math.min(colW, rowH) * 0.82;
-
-        ring.style.width = `${size}px`;
+        ring.style.width  = `${size}px`;
         ring.style.height = `${size}px`;
-        ring.style.left = `${left}px`;
-        ring.style.top  = `${top}px`;
+        ring.style.left   = `${left}px`;
+        ring.style.top    = `${top}px`;
         ring.style.display = "block";
       };
 
@@ -622,15 +707,15 @@
       else img.onload = place;
     }
 
-    function cerrarMapa() {
+    function cerrarMapa(){
       el("modalOverlay").style.display = "none";
     }
 
-    function buscarPorApellido() {
+    function buscarPorApellido(){
       limpiarPantalla();
 
       const q = normalizarTexto(el("busqueda").value);
-      if (!q) {
+      if (!q){
         setError("⚠️ Escribe un apellido antes de buscar.");
         return;
       }
@@ -642,7 +727,7 @@
         return tokens.every(t => palabras.includes(t));
       });
 
-      if (resultados.length === 0) {
+      if (resultados.length === 0){
         setError("❌ No se encontraron resultados. Prueba con otro apellido.");
         return;
       }
@@ -651,7 +736,7 @@
       setCount(resultados.length);
 
       const mesas = [...new Set(resultados.map(x => x.mesaKey).filter(Boolean))];
-      if (mesas.length === 1) {
+      if (mesas.length === 1){
         mostrarBotonMapa(mesas[0]);
       } else {
         ocultarBotonMapa();
@@ -659,18 +744,18 @@
       }
     }
 
-    function buscarPorMesa() {
+    function buscarPorMesa(){
       limpiarPantalla();
 
       const mesaKey = normalizarMesa(el("busqueda").value);
-      if (!mesaKey) {
+      if (!mesaKey){
         setError("⚠️ Ingresa un número de mesa válido.");
         return;
       }
 
       const resultados = invitados.filter(inv => inv.mesaKey === mesaKey);
 
-      if (resultados.length === 0) {
+      if (resultados.length === 0){
         setError(`❌ No se encontró la mesa ${mesaKey}.`);
         return;
       }
@@ -680,7 +765,7 @@
       mostrarBotonMapa(mesaKey);
     }
 
-    function renderResultadosApellido(resultados) {
+    function renderResultadosApellido(resultados){
       const cont = el("resultados");
 
       resultados.sort((a, b) => {
@@ -698,7 +783,7 @@
       `).join("");
     }
 
-    function renderResultadosMesa(resultados, mesaKey) {
+    function renderResultadosMesa(resultados, mesaKey){
       const cont = el("resultados");
 
       const header = `<div class="mesaHeader">🪑 MESA ${escapeHTML(mesaKey)}</div>`;
@@ -711,7 +796,7 @@
       cont.innerHTML = header + rows;
     }
 
-    function init() {
+    function init(){
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
       window.scrollTo(0, 0);
 
@@ -723,6 +808,7 @@
 
       el("btnMapa").addEventListener("click", abrirMapa);
       el("btnCerrar").addEventListener("click", cerrarMapa);
+
       el("modalOverlay").addEventListener("click", (e) => {
         if (e.target === el("modalOverlay")) cerrarMapa();
       });
@@ -744,7 +830,7 @@
         setTimeout(() => {
           setAppHeight();
           if (el("modalOverlay").style.display === "flex") abrirMapa();
-        }, 100);
+        }, 120);
       }, { passive: true });
     }
 
