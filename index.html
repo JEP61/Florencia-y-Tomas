@@ -295,16 +295,25 @@
       font-size: 16px;
     }
 
-    .btnCerrar {
-      border: none;
-      background: rgba(30,77,123,0.12);
-      color: var(--brand-blue);
+    /* ✅ BOTÓN CERRAR MEJORADO (ESTILO APP) */
+    .btnCerrar{
+      border:none;
+      cursor:pointer;
+
+      padding: 12px 14px;
+      border-radius: 14px;
+
+      background: linear-gradient(180deg, #1e5fa5, var(--brand-blue-dark));
+      color: #fff;
+
       font-weight: 900;
-      padding: 10px 12px;
-      border-radius: 12px;
-      cursor: pointer;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+
+      box-shadow: 0px 8px 18px rgba(0,0,0,0.18);
+      transition: transform 0.18s ease, filter 0.18s ease;
     }
-    .btnCerrar:active { transform: scale(0.99); }
+    .btnCerrar:active{ transform: scale(0.99); }
 
     .mapWrap {
       position: relative;
@@ -549,7 +558,7 @@
       el("btnMapa").style.display = "none";
     }
 
-    // Calcula el rectángulo real de la imagen dibujada dentro del wrap (por object-fit: contain)
+    // Calcula el rectángulo real de la imagen dibujada dentro del wrap (object-fit: contain)
     function getContainedImageRect(img, wrap) {
       const wrapW = wrap.clientWidth;
       const wrapH = wrap.clientHeight;
@@ -587,21 +596,19 @@
         return;
       }
 
-      // Asegurar que naturalWidth/Height exista (por si iOS demora)
       const place = () => {
         const rect = getContainedImageRect(img, wrap);
 
         const r = rowIndex[cell[0]];
         const c = cell[1] - 1; // 0..7
 
-        // Layout del mapa: 25% arriba, 50% grilla, 25% abajo (dentro DE LA IMAGEN)
+        // Layout del mapa: 25% arriba, 50% grilla, 25% abajo (dentro de la imagen)
         const colW = rect.w / 8;
         const rowH = (rect.h * 0.50) / 6;
 
         const left = rect.x + (c + 0.5) * colW;
         const top  = rect.y + (rect.h * 0.25) + (r + 0.5) * rowH;
 
-        // Tamaño: 82% de la celda (para que no toque otra)
         const size = Math.min(colW, rowH) * 0.82;
 
         ring.style.width = `${size}px`;
